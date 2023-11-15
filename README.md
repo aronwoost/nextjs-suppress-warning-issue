@@ -15,4 +15,28 @@ Expected result: "Hello Client" is displayed
 
 ⚠️ This app is working with App Router. The issue **does not** happen with Page Router.
 
+This is the code in question:
+
+```jsx
+"use client";
+
+import styles from "./page.module.css";
+
+export default function Home() {
+  let helloLabel = "";
+
+  if (typeof window !== "undefined") {
+    helloLabel = "Client";
+  } else {
+    helloLabel = "Server";
+  }
+
+  return (
+    <main className={styles.main}>
+      <h1 suppressHydrationWarning>Hello {helloLabel}</h1>
+    </main>
+  );
+}
+```
+
 `suppressHydrationWarning` does suppress the warning, but it does also prevents re-rendering. Without the `suppressHydrationWarning` prop, the text is correctly displayed but (of course) the warning is printed in the devtools console.
